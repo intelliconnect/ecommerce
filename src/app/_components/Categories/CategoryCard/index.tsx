@@ -14,7 +14,7 @@ type CategoryCardProps = {
 const CategoryCard = ({ category }: CategoryCardProps) => {
   const media = category.media as Media
   const { setCategoryFilters } = useFilter()
-
+  console.log(category), "category"
   return (
     <Link
       href="/products"

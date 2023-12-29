@@ -34,6 +34,8 @@ export default async function Product({ params: { slug } }) {
     notFound()
   }
 
+  console.log(product, "pro") 
+
   const { relatedProducts } = product
 
   return (

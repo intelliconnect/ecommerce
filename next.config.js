@@ -37,7 +37,7 @@ const nextConfig = {
     // It works by explicitly whitelisting trusted sources of content for your website
     // This will block all inline scripts and styles except for those that are allowed
     headers.push({
-      source: '/(.*)',
+      source: '/api/(.*)',
       headers: [
         {
           key: 'Content-Security-Policy',

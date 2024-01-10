@@ -30,6 +30,7 @@ import { Settings } from './globals/Settings'
 import { priceUpdated } from './stripe/webhooks/priceUpdated'
 import { productUpdated } from './stripe/webhooks/productUpdated'
 import Variants from './collections/Variants'
+import CustomVariants from './collections/CustomVariant'
 
 const generateTitle: GenerateTitle = () => {
   return 'My Store'
@@ -83,7 +84,7 @@ export default buildConfig({
   }),
   // database-adapter-config-end
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
-  collections: [Pages, Products, Orders, Media, Categories, Users, Variants],
+  collections: [Pages, Products, Orders, Media, Categories, Users, Variants, CustomVariants],
   globals: [Settings, Header, Footer],
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts'),
@@ -138,7 +139,7 @@ export default buildConfig({
       collections: ['pages', 'products'],
     }),
     nestedDocs({
-      collections: ['categories', 'variants'],
+      collections: ['categories', 'variants', 'customvariants'],
     }),
     seo({
       collections: ['pages', 'products'],

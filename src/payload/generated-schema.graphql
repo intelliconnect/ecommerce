@@ -23,6 +23,14 @@ type Query {
   docAccessUser(id: String!): usersDocAccess
   meUser: usersMe
   initializedUser: Boolean
+  Variant(id: String!, draft: Boolean): Variant
+  Variants(draft: Boolean, where: Variant_where, limit: Int, page: Int, sort: String): Variants
+  docAccessVariant(id: String!): variantDocAccess
+  Customvariant(id: String!, draft: Boolean): Customvariant
+  Customvariants(draft: Boolean, where: Customvariant_where, limit: Int, page: Int, sort: String): Customvariants
+  docAccessCustomvariant(id: String!): customvariantsDocAccess
+  versionCustomvariant(id: String): CustomvariantVersion
+  versionsCustomvariants(where: versionsCustomvariant_where, limit: Int, page: Int, sort: String): versionsCustomvariants
   Redirect(id: String!, draft: Boolean): Redirect
   Redirects(draft: Boolean, where: Redirect_where, limit: Int, page: Int, sort: String): Redirects
   docAccessRedirect(id: String!): redirectsDocAccess
@@ -263,6 +271,8 @@ input Page_Hero_Links_Link_Icon_where_and {
   width: Page_Hero_Links_Link_Icon_width_operator
   height: Page_Hero_Links_Link_Icon_height_operator
   id: Page_Hero_Links_Link_Icon_id_operator
+  AND: [Page_Hero_Links_Link_Icon_where_and]
+  OR: [Page_Hero_Links_Link_Icon_where_or]
 }
 
 input Page_Hero_Links_Link_Icon_where_or {
@@ -277,6 +287,8 @@ input Page_Hero_Links_Link_Icon_where_or {
   width: Page_Hero_Links_Link_Icon_width_operator
   height: Page_Hero_Links_Link_Icon_height_operator
   id: Page_Hero_Links_Link_Icon_id_operator
+  AND: [Page_Hero_Links_Link_Icon_where_and]
+  OR: [Page_Hero_Links_Link_Icon_where_or]
 }
 
 enum Page_Hero_Links_Link_appearance {
@@ -427,6 +439,8 @@ input Page_Hero_Media_where_and {
   width: Page_Hero_Media_width_operator
   height: Page_Hero_Media_height_operator
   id: Page_Hero_Media_id_operator
+  AND: [Page_Hero_Media_where_and]
+  OR: [Page_Hero_Media_where_or]
 }
 
 input Page_Hero_Media_where_or {
@@ -441,6 +455,8 @@ input Page_Hero_Media_where_or {
   width: Page_Hero_Media_width_operator
   height: Page_Hero_Media_height_operator
   id: Page_Hero_Media_id_operator
+  AND: [Page_Hero_Media_where_and]
+  OR: [Page_Hero_Media_where_or]
 }
 
 union Page_Layout = Cta | Content | MediaBlock | Archive
@@ -627,6 +643,8 @@ input Cta_Links_Link_Icon_where_and {
   width: Cta_Links_Link_Icon_width_operator
   height: Cta_Links_Link_Icon_height_operator
   id: Cta_Links_Link_Icon_id_operator
+  AND: [Cta_Links_Link_Icon_where_and]
+  OR: [Cta_Links_Link_Icon_where_or]
 }
 
 input Cta_Links_Link_Icon_where_or {
@@ -641,6 +659,8 @@ input Cta_Links_Link_Icon_where_or {
   width: Cta_Links_Link_Icon_width_operator
   height: Cta_Links_Link_Icon_height_operator
   id: Cta_Links_Link_Icon_id_operator
+  AND: [Cta_Links_Link_Icon_where_and]
+  OR: [Cta_Links_Link_Icon_where_or]
 }
 
 enum Cta_Links_Link_appearance {
@@ -839,6 +859,8 @@ input Content_Columns_Link_Icon_where_and {
   width: Content_Columns_Link_Icon_width_operator
   height: Content_Columns_Link_Icon_height_operator
   id: Content_Columns_Link_Icon_id_operator
+  AND: [Content_Columns_Link_Icon_where_and]
+  OR: [Content_Columns_Link_Icon_where_or]
 }
 
 input Content_Columns_Link_Icon_where_or {
@@ -853,6 +875,8 @@ input Content_Columns_Link_Icon_where_or {
   width: Content_Columns_Link_Icon_width_operator
   height: Content_Columns_Link_Icon_height_operator
   id: Content_Columns_Link_Icon_id_operator
+  AND: [Content_Columns_Link_Icon_where_and]
+  OR: [Content_Columns_Link_Icon_where_or]
 }
 
 enum Content_Columns_Link_appearance {
@@ -1017,6 +1041,8 @@ input MediaBlock_Media_where_and {
   width: MediaBlock_Media_width_operator
   height: MediaBlock_Media_height_operator
   id: MediaBlock_Media_id_operator
+  AND: [MediaBlock_Media_where_and]
+  OR: [MediaBlock_Media_where_or]
 }
 
 input MediaBlock_Media_where_or {
@@ -1031,6 +1057,8 @@ input MediaBlock_Media_where_or {
   width: MediaBlock_Media_width_operator
   height: MediaBlock_Media_height_operator
   id: MediaBlock_Media_id_operator
+  AND: [MediaBlock_Media_where_and]
+  OR: [MediaBlock_Media_where_or]
 }
 
 type Archive {
@@ -1208,6 +1236,8 @@ input Category_Media_where_and {
   width: Category_Media_width_operator
   height: Category_Media_height_operator
   id: Category_Media_id_operator
+  AND: [Category_Media_where_and]
+  OR: [Category_Media_where_or]
 }
 
 input Category_Media_where_or {
@@ -1222,6 +1252,8 @@ input Category_Media_where_or {
   width: Category_Media_width_operator
   height: Category_Media_height_operator
   id: Category_Media_id_operator
+  AND: [Category_Media_where_and]
+  OR: [Category_Media_where_or]
 }
 
 type Category_Breadcrumbs {
@@ -1252,6 +1284,7 @@ type Product {
   enablePaywall: Boolean
   paywall: [Product_Paywall!]
   categories: [Category!]
+  variant: [Variant!]
   relatedProducts: [Product!]
   slug: String
   skipSync: Boolean
@@ -1264,6 +1297,176 @@ type Product {
 union Product_Layout = Cta | Content | MediaBlock | Archive
 
 union Product_Paywall = Cta | Content | MediaBlock | Archive
+
+type Variant {
+  id: String
+  title: String!
+  media(where: Variant_Media_where): Media
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+input Variant_Media_where {
+  alt: Variant_Media_alt_operator
+  caption: Variant_Media_caption_operator
+  updatedAt: Variant_Media_updatedAt_operator
+  createdAt: Variant_Media_createdAt_operator
+  url: Variant_Media_url_operator
+  filename: Variant_Media_filename_operator
+  mimeType: Variant_Media_mimeType_operator
+  filesize: Variant_Media_filesize_operator
+  width: Variant_Media_width_operator
+  height: Variant_Media_height_operator
+  id: Variant_Media_id_operator
+  AND: [Variant_Media_where_and]
+  OR: [Variant_Media_where_or]
+}
+
+input Variant_Media_alt_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Variant_Media_caption_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+  exists: Boolean
+}
+
+input Variant_Media_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Variant_Media_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Variant_Media_url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Variant_Media_filename_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Variant_Media_mimeType_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Variant_Media_filesize_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Variant_Media_width_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Variant_Media_height_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Variant_Media_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Variant_Media_where_and {
+  alt: Variant_Media_alt_operator
+  caption: Variant_Media_caption_operator
+  updatedAt: Variant_Media_updatedAt_operator
+  createdAt: Variant_Media_createdAt_operator
+  url: Variant_Media_url_operator
+  filename: Variant_Media_filename_operator
+  mimeType: Variant_Media_mimeType_operator
+  filesize: Variant_Media_filesize_operator
+  width: Variant_Media_width_operator
+  height: Variant_Media_height_operator
+  id: Variant_Media_id_operator
+  AND: [Variant_Media_where_and]
+  OR: [Variant_Media_where_or]
+}
+
+input Variant_Media_where_or {
+  alt: Variant_Media_alt_operator
+  caption: Variant_Media_caption_operator
+  updatedAt: Variant_Media_updatedAt_operator
+  createdAt: Variant_Media_createdAt_operator
+  url: Variant_Media_url_operator
+  filename: Variant_Media_filename_operator
+  mimeType: Variant_Media_mimeType_operator
+  filesize: Variant_Media_filesize_operator
+  width: Variant_Media_width_operator
+  height: Variant_Media_height_operator
+  id: Variant_Media_id_operator
+  AND: [Variant_Media_where_and]
+  OR: [Variant_Media_where_or]
+}
 
 type Product_Meta {
   title: String
@@ -1413,6 +1616,8 @@ input Product_Meta_Image_where_and {
   width: Product_Meta_Image_width_operator
   height: Product_Meta_Image_height_operator
   id: Product_Meta_Image_id_operator
+  AND: [Product_Meta_Image_where_and]
+  OR: [Product_Meta_Image_where_or]
 }
 
 input Product_Meta_Image_where_or {
@@ -1427,6 +1632,8 @@ input Product_Meta_Image_where_or {
   width: Product_Meta_Image_width_operator
   height: Product_Meta_Image_height_operator
   id: Product_Meta_Image_id_operator
+  AND: [Product_Meta_Image_where_and]
+  OR: [Product_Meta_Image_where_or]
 }
 
 enum Product__status {
@@ -1593,6 +1800,8 @@ input Page_Meta_Image_where_and {
   width: Page_Meta_Image_width_operator
   height: Page_Meta_Image_height_operator
   id: Page_Meta_Image_id_operator
+  AND: [Page_Meta_Image_where_and]
+  OR: [Page_Meta_Image_where_or]
 }
 
 input Page_Meta_Image_where_or {
@@ -1607,6 +1816,8 @@ input Page_Meta_Image_where_or {
   width: Page_Meta_Image_width_operator
   height: Page_Meta_Image_height_operator
   id: Page_Meta_Image_id_operator
+  AND: [Page_Meta_Image_where_and]
+  OR: [Page_Meta_Image_where_or]
 }
 
 enum Page__status {
@@ -1888,6 +2099,8 @@ input Page_where_and {
   createdAt: Page_createdAt_operator
   _status: Page__status_operator
   id: Page_id_operator
+  AND: [Page_where_and]
+  OR: [Page_where_or]
 }
 
 input Page_where_or {
@@ -1912,6 +2125,8 @@ input Page_where_or {
   createdAt: Page_createdAt_operator
   _status: Page__status_operator
   id: Page_id_operator
+  AND: [Page_where_and]
+  OR: [Page_where_or]
 }
 
 type pagesDocAccess {
@@ -2399,34 +2614,9 @@ type PagesDocAccessFields_meta_Delete {
 }
 
 type PagesDocAccessFields_meta_Fields {
-  overview: PagesDocAccessFields_meta_overview
   title: PagesDocAccessFields_meta_title
   description: PagesDocAccessFields_meta_description
   image: PagesDocAccessFields_meta_image
-  preview: PagesDocAccessFields_meta_preview
-}
-
-type PagesDocAccessFields_meta_overview {
-  create: PagesDocAccessFields_meta_overview_Create
-  read: PagesDocAccessFields_meta_overview_Read
-  update: PagesDocAccessFields_meta_overview_Update
-  delete: PagesDocAccessFields_meta_overview_Delete
-}
-
-type PagesDocAccessFields_meta_overview_Create {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_meta_overview_Read {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_meta_overview_Update {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_meta_overview_Delete {
-  permission: Boolean!
 }
 
 type PagesDocAccessFields_meta_title {
@@ -2495,29 +2685,6 @@ type PagesDocAccessFields_meta_image_Update {
 }
 
 type PagesDocAccessFields_meta_image_Delete {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_meta_preview {
-  create: PagesDocAccessFields_meta_preview_Create
-  read: PagesDocAccessFields_meta_preview_Read
-  update: PagesDocAccessFields_meta_preview_Update
-  delete: PagesDocAccessFields_meta_preview_Delete
-}
-
-type PagesDocAccessFields_meta_preview_Create {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_meta_preview_Read {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_meta_preview_Update {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_meta_preview_Delete {
   permission: Boolean!
 }
 
@@ -2829,6 +2996,8 @@ input PageVersion_Version_Hero_Links_Link_Icon_where_and {
   width: PageVersion_Version_Hero_Links_Link_Icon_width_operator
   height: PageVersion_Version_Hero_Links_Link_Icon_height_operator
   id: PageVersion_Version_Hero_Links_Link_Icon_id_operator
+  AND: [PageVersion_Version_Hero_Links_Link_Icon_where_and]
+  OR: [PageVersion_Version_Hero_Links_Link_Icon_where_or]
 }
 
 input PageVersion_Version_Hero_Links_Link_Icon_where_or {
@@ -2843,6 +3012,8 @@ input PageVersion_Version_Hero_Links_Link_Icon_where_or {
   width: PageVersion_Version_Hero_Links_Link_Icon_width_operator
   height: PageVersion_Version_Hero_Links_Link_Icon_height_operator
   id: PageVersion_Version_Hero_Links_Link_Icon_id_operator
+  AND: [PageVersion_Version_Hero_Links_Link_Icon_where_and]
+  OR: [PageVersion_Version_Hero_Links_Link_Icon_where_or]
 }
 
 enum PageVersion_Version_Hero_Links_Link_appearance {
@@ -2993,6 +3164,8 @@ input PageVersion_Version_Hero_Media_where_and {
   width: PageVersion_Version_Hero_Media_width_operator
   height: PageVersion_Version_Hero_Media_height_operator
   id: PageVersion_Version_Hero_Media_id_operator
+  AND: [PageVersion_Version_Hero_Media_where_and]
+  OR: [PageVersion_Version_Hero_Media_where_or]
 }
 
 input PageVersion_Version_Hero_Media_where_or {
@@ -3007,6 +3180,8 @@ input PageVersion_Version_Hero_Media_where_or {
   width: PageVersion_Version_Hero_Media_width_operator
   height: PageVersion_Version_Hero_Media_height_operator
   id: PageVersion_Version_Hero_Media_id_operator
+  AND: [PageVersion_Version_Hero_Media_where_and]
+  OR: [PageVersion_Version_Hero_Media_where_or]
 }
 
 union PageVersion_Version_Layout = Cta | Content | MediaBlock | Archive
@@ -3159,6 +3334,8 @@ input PageVersion_Version_Meta_Image_where_and {
   width: PageVersion_Version_Meta_Image_width_operator
   height: PageVersion_Version_Meta_Image_height_operator
   id: PageVersion_Version_Meta_Image_id_operator
+  AND: [PageVersion_Version_Meta_Image_where_and]
+  OR: [PageVersion_Version_Meta_Image_where_or]
 }
 
 input PageVersion_Version_Meta_Image_where_or {
@@ -3173,6 +3350,8 @@ input PageVersion_Version_Meta_Image_where_or {
   width: PageVersion_Version_Meta_Image_width_operator
   height: PageVersion_Version_Meta_Image_height_operator
   id: PageVersion_Version_Meta_Image_id_operator
+  AND: [PageVersion_Version_Meta_Image_where_and]
+  OR: [PageVersion_Version_Meta_Image_where_or]
 }
 
 enum PageVersion_Version__status {
@@ -3499,6 +3678,8 @@ input versionsPage_where_and {
   updatedAt: versionsPage_updatedAt_operator
   latest: versionsPage_latest_operator
   id: versionsPage_id_operator
+  AND: [versionsPage_where_and]
+  OR: [versionsPage_where_or]
 }
 
 input versionsPage_where_or {
@@ -3527,6 +3708,8 @@ input versionsPage_where_or {
   updatedAt: versionsPage_updatedAt_operator
   latest: versionsPage_latest_operator
   id: versionsPage_id_operator
+  AND: [versionsPage_where_and]
+  OR: [versionsPage_where_or]
 }
 
 type Products {
@@ -3550,6 +3733,7 @@ input Product_where {
   priceJSON: Product_priceJSON_operator
   enablePaywall: Product_enablePaywall_operator
   categories: Product_categories_operator
+  variant: Product_variant_operator
   relatedProducts: Product_relatedProducts_operator
   slug: Product_slug_operator
   skipSync: Product_skipSync_operator
@@ -3611,6 +3795,15 @@ input Product_enablePaywall_operator {
 }
 
 input Product_categories_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Product_variant_operator {
   equals: JSON
   not_equals: JSON
   in: [JSON]
@@ -3724,6 +3917,7 @@ input Product_where_and {
   priceJSON: Product_priceJSON_operator
   enablePaywall: Product_enablePaywall_operator
   categories: Product_categories_operator
+  variant: Product_variant_operator
   relatedProducts: Product_relatedProducts_operator
   slug: Product_slug_operator
   skipSync: Product_skipSync_operator
@@ -3734,6 +3928,8 @@ input Product_where_and {
   createdAt: Product_createdAt_operator
   _status: Product__status_operator
   id: Product_id_operator
+  AND: [Product_where_and]
+  OR: [Product_where_or]
 }
 
 input Product_where_or {
@@ -3743,6 +3939,7 @@ input Product_where_or {
   priceJSON: Product_priceJSON_operator
   enablePaywall: Product_enablePaywall_operator
   categories: Product_categories_operator
+  variant: Product_variant_operator
   relatedProducts: Product_relatedProducts_operator
   slug: Product_slug_operator
   skipSync: Product_skipSync_operator
@@ -3753,6 +3950,8 @@ input Product_where_or {
   createdAt: Product_createdAt_operator
   _status: Product__status_operator
   id: Product_id_operator
+  AND: [Product_where_and]
+  OR: [Product_where_or]
 }
 
 type productsDocAccess {
@@ -3773,6 +3972,7 @@ type ProductsDocAccessFields {
   enablePaywall: ProductsDocAccessFields_enablePaywall
   paywall: ProductsDocAccessFields_paywall
   categories: ProductsDocAccessFields_categories
+  variant: ProductsDocAccessFields_variant
   relatedProducts: ProductsDocAccessFields_relatedProducts
   slug: ProductsDocAccessFields_slug
   skipSync: ProductsDocAccessFields_skipSync
@@ -3966,6 +4166,29 @@ type ProductsDocAccessFields_categories_Delete {
   permission: Boolean!
 }
 
+type ProductsDocAccessFields_variant {
+  create: ProductsDocAccessFields_variant_Create
+  read: ProductsDocAccessFields_variant_Read
+  update: ProductsDocAccessFields_variant_Update
+  delete: ProductsDocAccessFields_variant_Delete
+}
+
+type ProductsDocAccessFields_variant_Create {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_variant_Read {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_variant_Update {
+  permission: Boolean!
+}
+
+type ProductsDocAccessFields_variant_Delete {
+  permission: Boolean!
+}
+
 type ProductsDocAccessFields_relatedProducts {
   create: ProductsDocAccessFields_relatedProducts_Create
   read: ProductsDocAccessFields_relatedProducts_Read
@@ -4060,34 +4283,9 @@ type ProductsDocAccessFields_meta_Delete {
 }
 
 type ProductsDocAccessFields_meta_Fields {
-  overview: ProductsDocAccessFields_meta_overview
   title: ProductsDocAccessFields_meta_title
   description: ProductsDocAccessFields_meta_description
   image: ProductsDocAccessFields_meta_image
-  preview: ProductsDocAccessFields_meta_preview
-}
-
-type ProductsDocAccessFields_meta_overview {
-  create: ProductsDocAccessFields_meta_overview_Create
-  read: ProductsDocAccessFields_meta_overview_Read
-  update: ProductsDocAccessFields_meta_overview_Update
-  delete: ProductsDocAccessFields_meta_overview_Delete
-}
-
-type ProductsDocAccessFields_meta_overview_Create {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_meta_overview_Read {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_meta_overview_Update {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_meta_overview_Delete {
-  permission: Boolean!
 }
 
 type ProductsDocAccessFields_meta_title {
@@ -4156,29 +4354,6 @@ type ProductsDocAccessFields_meta_image_Update {
 }
 
 type ProductsDocAccessFields_meta_image_Delete {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_meta_preview {
-  create: ProductsDocAccessFields_meta_preview_Create
-  read: ProductsDocAccessFields_meta_preview_Read
-  update: ProductsDocAccessFields_meta_preview_Update
-  delete: ProductsDocAccessFields_meta_preview_Delete
-}
-
-type ProductsDocAccessFields_meta_preview_Create {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_meta_preview_Read {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_meta_preview_Update {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_meta_preview_Delete {
   permission: Boolean!
 }
 
@@ -4294,6 +4469,7 @@ type ProductVersion_Version {
   enablePaywall: Boolean
   paywall: [ProductVersion_Version_Paywall!]
   categories: [Category!]
+  variant: [Variant!]
   relatedProducts: [Product!]
   slug: String
   skipSync: Boolean
@@ -4455,6 +4631,8 @@ input ProductVersion_Version_Meta_Image_where_and {
   width: ProductVersion_Version_Meta_Image_width_operator
   height: ProductVersion_Version_Meta_Image_height_operator
   id: ProductVersion_Version_Meta_Image_id_operator
+  AND: [ProductVersion_Version_Meta_Image_where_and]
+  OR: [ProductVersion_Version_Meta_Image_where_or]
 }
 
 input ProductVersion_Version_Meta_Image_where_or {
@@ -4469,6 +4647,8 @@ input ProductVersion_Version_Meta_Image_where_or {
   width: ProductVersion_Version_Meta_Image_width_operator
   height: ProductVersion_Version_Meta_Image_height_operator
   id: ProductVersion_Version_Meta_Image_id_operator
+  AND: [ProductVersion_Version_Meta_Image_where_and]
+  OR: [ProductVersion_Version_Meta_Image_where_or]
 }
 
 enum ProductVersion_Version__status {
@@ -4498,6 +4678,7 @@ input versionsProduct_where {
   version__priceJSON: versionsProduct_version__priceJSON_operator
   version__enablePaywall: versionsProduct_version__enablePaywall_operator
   version__categories: versionsProduct_version__categories_operator
+  version__variant: versionsProduct_version__variant_operator
   version__relatedProducts: versionsProduct_version__relatedProducts_operator
   version__slug: versionsProduct_version__slug_operator
   version__skipSync: versionsProduct_version__skipSync_operator
@@ -4571,6 +4752,15 @@ input versionsProduct_version__enablePaywall_operator {
 }
 
 input versionsProduct_version__categories_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input versionsProduct_version__variant_operator {
   equals: JSON
   not_equals: JSON
   in: [JSON]
@@ -4713,6 +4903,7 @@ input versionsProduct_where_and {
   version__priceJSON: versionsProduct_version__priceJSON_operator
   version__enablePaywall: versionsProduct_version__enablePaywall_operator
   version__categories: versionsProduct_version__categories_operator
+  version__variant: versionsProduct_version__variant_operator
   version__relatedProducts: versionsProduct_version__relatedProducts_operator
   version__slug: versionsProduct_version__slug_operator
   version__skipSync: versionsProduct_version__skipSync_operator
@@ -4726,6 +4917,8 @@ input versionsProduct_where_and {
   updatedAt: versionsProduct_updatedAt_operator
   latest: versionsProduct_latest_operator
   id: versionsProduct_id_operator
+  AND: [versionsProduct_where_and]
+  OR: [versionsProduct_where_or]
 }
 
 input versionsProduct_where_or {
@@ -4736,6 +4929,7 @@ input versionsProduct_where_or {
   version__priceJSON: versionsProduct_version__priceJSON_operator
   version__enablePaywall: versionsProduct_version__enablePaywall_operator
   version__categories: versionsProduct_version__categories_operator
+  version__variant: versionsProduct_version__variant_operator
   version__relatedProducts: versionsProduct_version__relatedProducts_operator
   version__slug: versionsProduct_version__slug_operator
   version__skipSync: versionsProduct_version__skipSync_operator
@@ -4749,6 +4943,8 @@ input versionsProduct_where_or {
   updatedAt: versionsProduct_updatedAt_operator
   latest: versionsProduct_latest_operator
   id: versionsProduct_id_operator
+  AND: [versionsProduct_where_and]
+  OR: [versionsProduct_where_or]
 }
 
 type Order {
@@ -4949,6 +5145,8 @@ input Order_where_and {
   updatedAt: Order_updatedAt_operator
   createdAt: Order_createdAt_operator
   id: Order_id_operator
+  AND: [Order_where_and]
+  OR: [Order_where_or]
 }
 
 input Order_where_or {
@@ -4962,6 +5160,8 @@ input Order_where_or {
   updatedAt: Order_updatedAt_operator
   createdAt: Order_createdAt_operator
   id: Order_id_operator
+  AND: [Order_where_and]
+  OR: [Order_where_or]
 }
 
 type ordersDocAccess {
@@ -5395,6 +5595,8 @@ input Media_where_and {
   width: Media_width_operator
   height: Media_height_operator
   id: Media_id_operator
+  AND: [Media_where_and]
+  OR: [Media_where_or]
 }
 
 input Media_where_or {
@@ -5409,6 +5611,8 @@ input Media_where_or {
   width: Media_width_operator
   height: Media_height_operator
   id: Media_id_operator
+  AND: [Media_where_and]
+  OR: [Media_where_or]
 }
 
 type mediaDocAccess {
@@ -5822,6 +6026,8 @@ input Category_where_and {
   updatedAt: Category_updatedAt_operator
   createdAt: Category_createdAt_operator
   id: Category_id_operator
+  AND: [Category_where_and]
+  OR: [Category_where_or]
 }
 
 input Category_where_or {
@@ -5835,6 +6041,8 @@ input Category_where_or {
   updatedAt: Category_updatedAt_operator
   createdAt: Category_createdAt_operator
   id: Category_id_operator
+  AND: [Category_where_and]
+  OR: [Category_where_or]
 }
 
 type categoriesDocAccess {
@@ -6280,6 +6488,8 @@ input User_where_and {
   createdAt: User_createdAt_operator
   email: User_email_operator
   id: User_id_operator
+  AND: [User_where_and]
+  OR: [User_where_or]
 }
 
 input User_where_or {
@@ -6295,6 +6505,8 @@ input User_where_or {
   createdAt: User_createdAt_operator
   email: User_email_operator
   id: User_id_operator
+  AND: [User_where_and]
+  OR: [User_where_or]
 }
 
 type usersDocAccess {
@@ -6685,6 +6897,1194 @@ type usersMe {
   user: User
 }
 
+type Variants {
+  docs: [Variant]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input Variant_where {
+  title: Variant_title_operator
+  media: Variant_media_operator
+  updatedAt: Variant_updatedAt_operator
+  createdAt: Variant_createdAt_operator
+  id: Variant_id_operator
+  AND: [Variant_where_and]
+  OR: [Variant_where_or]
+}
+
+input Variant_title_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Variant_media_operator {
+  equals: String
+  not_equals: String
+  exists: Boolean
+}
+
+input Variant_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Variant_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Variant_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Variant_where_and {
+  title: Variant_title_operator
+  media: Variant_media_operator
+  updatedAt: Variant_updatedAt_operator
+  createdAt: Variant_createdAt_operator
+  id: Variant_id_operator
+  AND: [Variant_where_and]
+  OR: [Variant_where_or]
+}
+
+input Variant_where_or {
+  title: Variant_title_operator
+  media: Variant_media_operator
+  updatedAt: Variant_updatedAt_operator
+  createdAt: Variant_createdAt_operator
+  id: Variant_id_operator
+  AND: [Variant_where_and]
+  OR: [Variant_where_or]
+}
+
+type variantDocAccess {
+  fields: VariantDocAccessFields
+  create: VariantCreateDocAccess
+  read: VariantReadDocAccess
+  update: VariantUpdateDocAccess
+  delete: VariantDeleteDocAccess
+}
+
+type VariantDocAccessFields {
+  title: VariantDocAccessFields_title
+  media: VariantDocAccessFields_media
+  updatedAt: VariantDocAccessFields_updatedAt
+  createdAt: VariantDocAccessFields_createdAt
+}
+
+type VariantDocAccessFields_title {
+  create: VariantDocAccessFields_title_Create
+  read: VariantDocAccessFields_title_Read
+  update: VariantDocAccessFields_title_Update
+  delete: VariantDocAccessFields_title_Delete
+}
+
+type VariantDocAccessFields_title_Create {
+  permission: Boolean!
+}
+
+type VariantDocAccessFields_title_Read {
+  permission: Boolean!
+}
+
+type VariantDocAccessFields_title_Update {
+  permission: Boolean!
+}
+
+type VariantDocAccessFields_title_Delete {
+  permission: Boolean!
+}
+
+type VariantDocAccessFields_media {
+  create: VariantDocAccessFields_media_Create
+  read: VariantDocAccessFields_media_Read
+  update: VariantDocAccessFields_media_Update
+  delete: VariantDocAccessFields_media_Delete
+}
+
+type VariantDocAccessFields_media_Create {
+  permission: Boolean!
+}
+
+type VariantDocAccessFields_media_Read {
+  permission: Boolean!
+}
+
+type VariantDocAccessFields_media_Update {
+  permission: Boolean!
+}
+
+type VariantDocAccessFields_media_Delete {
+  permission: Boolean!
+}
+
+type VariantDocAccessFields_updatedAt {
+  create: VariantDocAccessFields_updatedAt_Create
+  read: VariantDocAccessFields_updatedAt_Read
+  update: VariantDocAccessFields_updatedAt_Update
+  delete: VariantDocAccessFields_updatedAt_Delete
+}
+
+type VariantDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type VariantDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type VariantDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type VariantDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type VariantDocAccessFields_createdAt {
+  create: VariantDocAccessFields_createdAt_Create
+  read: VariantDocAccessFields_createdAt_Read
+  update: VariantDocAccessFields_createdAt_Update
+  delete: VariantDocAccessFields_createdAt_Delete
+}
+
+type VariantDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type VariantDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type VariantDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type VariantDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type VariantCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type VariantReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type VariantUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type VariantDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Customvariant {
+  id: String
+  title: String
+  publishedOn: DateTime
+  categories: [Category!]
+  relatedProducts: [Product!]
+  slug: String
+  skipSync: Boolean
+  parent: Customvariant
+  breadcrumbs: [Customvariant_Breadcrumbs!]
+  updatedAt: DateTime
+  createdAt: DateTime
+  _status: Customvariant__status
+}
+
+type Customvariant_Breadcrumbs {
+  doc: Customvariant
+  url: String
+  label: String
+  id: String
+}
+
+enum Customvariant__status {
+  draft
+  published
+}
+
+type Customvariants {
+  docs: [Customvariant]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input Customvariant_where {
+  title: Customvariant_title_operator
+  publishedOn: Customvariant_publishedOn_operator
+  categories: Customvariant_categories_operator
+  relatedProducts: Customvariant_relatedProducts_operator
+  slug: Customvariant_slug_operator
+  skipSync: Customvariant_skipSync_operator
+  parent: Customvariant_parent_operator
+  breadcrumbs__doc: Customvariant_breadcrumbs__doc_operator
+  breadcrumbs__url: Customvariant_breadcrumbs__url_operator
+  breadcrumbs__label: Customvariant_breadcrumbs__label_operator
+  breadcrumbs__id: Customvariant_breadcrumbs__id_operator
+  updatedAt: Customvariant_updatedAt_operator
+  createdAt: Customvariant_createdAt_operator
+  _status: Customvariant__status_operator
+  id: Customvariant_id_operator
+  AND: [Customvariant_where_and]
+  OR: [Customvariant_where_or]
+}
+
+input Customvariant_title_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Customvariant_publishedOn_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Customvariant_categories_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Customvariant_relatedProducts_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Customvariant_slug_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Customvariant_skipSync_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
+input Customvariant_parent_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Customvariant_breadcrumbs__doc_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Customvariant_breadcrumbs__url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Customvariant_breadcrumbs__label_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Customvariant_breadcrumbs__id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Customvariant_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Customvariant_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Customvariant__status_operator {
+  equals: Customvariant__status_Input
+  not_equals: Customvariant__status_Input
+  in: [Customvariant__status_Input]
+  not_in: [Customvariant__status_Input]
+  all: [Customvariant__status_Input]
+  exists: Boolean
+}
+
+enum Customvariant__status_Input {
+  draft
+  published
+}
+
+input Customvariant_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Customvariant_where_and {
+  title: Customvariant_title_operator
+  publishedOn: Customvariant_publishedOn_operator
+  categories: Customvariant_categories_operator
+  relatedProducts: Customvariant_relatedProducts_operator
+  slug: Customvariant_slug_operator
+  skipSync: Customvariant_skipSync_operator
+  parent: Customvariant_parent_operator
+  breadcrumbs__doc: Customvariant_breadcrumbs__doc_operator
+  breadcrumbs__url: Customvariant_breadcrumbs__url_operator
+  breadcrumbs__label: Customvariant_breadcrumbs__label_operator
+  breadcrumbs__id: Customvariant_breadcrumbs__id_operator
+  updatedAt: Customvariant_updatedAt_operator
+  createdAt: Customvariant_createdAt_operator
+  _status: Customvariant__status_operator
+  id: Customvariant_id_operator
+  AND: [Customvariant_where_and]
+  OR: [Customvariant_where_or]
+}
+
+input Customvariant_where_or {
+  title: Customvariant_title_operator
+  publishedOn: Customvariant_publishedOn_operator
+  categories: Customvariant_categories_operator
+  relatedProducts: Customvariant_relatedProducts_operator
+  slug: Customvariant_slug_operator
+  skipSync: Customvariant_skipSync_operator
+  parent: Customvariant_parent_operator
+  breadcrumbs__doc: Customvariant_breadcrumbs__doc_operator
+  breadcrumbs__url: Customvariant_breadcrumbs__url_operator
+  breadcrumbs__label: Customvariant_breadcrumbs__label_operator
+  breadcrumbs__id: Customvariant_breadcrumbs__id_operator
+  updatedAt: Customvariant_updatedAt_operator
+  createdAt: Customvariant_createdAt_operator
+  _status: Customvariant__status_operator
+  id: Customvariant_id_operator
+  AND: [Customvariant_where_and]
+  OR: [Customvariant_where_or]
+}
+
+type customvariantsDocAccess {
+  fields: CustomvariantsDocAccessFields
+  create: CustomvariantsCreateDocAccess
+  read: CustomvariantsReadDocAccess
+  update: CustomvariantsUpdateDocAccess
+  delete: CustomvariantsDeleteDocAccess
+  readVersions: CustomvariantsReadVersionsDocAccess
+}
+
+type CustomvariantsDocAccessFields {
+  title: CustomvariantsDocAccessFields_title
+  publishedOn: CustomvariantsDocAccessFields_publishedOn
+  categories: CustomvariantsDocAccessFields_categories
+  relatedProducts: CustomvariantsDocAccessFields_relatedProducts
+  slug: CustomvariantsDocAccessFields_slug
+  skipSync: CustomvariantsDocAccessFields_skipSync
+  parent: CustomvariantsDocAccessFields_parent
+  breadcrumbs: CustomvariantsDocAccessFields_breadcrumbs
+  updatedAt: CustomvariantsDocAccessFields_updatedAt
+  createdAt: CustomvariantsDocAccessFields_createdAt
+  _status: CustomvariantsDocAccessFields__status
+}
+
+type CustomvariantsDocAccessFields_title {
+  create: CustomvariantsDocAccessFields_title_Create
+  read: CustomvariantsDocAccessFields_title_Read
+  update: CustomvariantsDocAccessFields_title_Update
+  delete: CustomvariantsDocAccessFields_title_Delete
+}
+
+type CustomvariantsDocAccessFields_title_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_title_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_title_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_title_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_publishedOn {
+  create: CustomvariantsDocAccessFields_publishedOn_Create
+  read: CustomvariantsDocAccessFields_publishedOn_Read
+  update: CustomvariantsDocAccessFields_publishedOn_Update
+  delete: CustomvariantsDocAccessFields_publishedOn_Delete
+}
+
+type CustomvariantsDocAccessFields_publishedOn_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_publishedOn_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_publishedOn_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_publishedOn_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_categories {
+  create: CustomvariantsDocAccessFields_categories_Create
+  read: CustomvariantsDocAccessFields_categories_Read
+  update: CustomvariantsDocAccessFields_categories_Update
+  delete: CustomvariantsDocAccessFields_categories_Delete
+}
+
+type CustomvariantsDocAccessFields_categories_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_categories_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_categories_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_categories_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_relatedProducts {
+  create: CustomvariantsDocAccessFields_relatedProducts_Create
+  read: CustomvariantsDocAccessFields_relatedProducts_Read
+  update: CustomvariantsDocAccessFields_relatedProducts_Update
+  delete: CustomvariantsDocAccessFields_relatedProducts_Delete
+}
+
+type CustomvariantsDocAccessFields_relatedProducts_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_relatedProducts_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_relatedProducts_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_relatedProducts_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_slug {
+  create: CustomvariantsDocAccessFields_slug_Create
+  read: CustomvariantsDocAccessFields_slug_Read
+  update: CustomvariantsDocAccessFields_slug_Update
+  delete: CustomvariantsDocAccessFields_slug_Delete
+}
+
+type CustomvariantsDocAccessFields_slug_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_slug_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_slug_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_slug_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_skipSync {
+  create: CustomvariantsDocAccessFields_skipSync_Create
+  read: CustomvariantsDocAccessFields_skipSync_Read
+  update: CustomvariantsDocAccessFields_skipSync_Update
+  delete: CustomvariantsDocAccessFields_skipSync_Delete
+}
+
+type CustomvariantsDocAccessFields_skipSync_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_skipSync_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_skipSync_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_skipSync_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_parent {
+  create: CustomvariantsDocAccessFields_parent_Create
+  read: CustomvariantsDocAccessFields_parent_Read
+  update: CustomvariantsDocAccessFields_parent_Update
+  delete: CustomvariantsDocAccessFields_parent_Delete
+}
+
+type CustomvariantsDocAccessFields_parent_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_parent_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_parent_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_parent_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs {
+  create: CustomvariantsDocAccessFields_breadcrumbs_Create
+  read: CustomvariantsDocAccessFields_breadcrumbs_Read
+  update: CustomvariantsDocAccessFields_breadcrumbs_Update
+  delete: CustomvariantsDocAccessFields_breadcrumbs_Delete
+  fields: CustomvariantsDocAccessFields_breadcrumbs_Fields
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_Fields {
+  doc: CustomvariantsDocAccessFields_breadcrumbs_doc
+  url: CustomvariantsDocAccessFields_breadcrumbs_url
+  label: CustomvariantsDocAccessFields_breadcrumbs_label
+  id: CustomvariantsDocAccessFields_breadcrumbs_id
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_doc {
+  create: CustomvariantsDocAccessFields_breadcrumbs_doc_Create
+  read: CustomvariantsDocAccessFields_breadcrumbs_doc_Read
+  update: CustomvariantsDocAccessFields_breadcrumbs_doc_Update
+  delete: CustomvariantsDocAccessFields_breadcrumbs_doc_Delete
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_doc_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_doc_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_doc_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_doc_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_url {
+  create: CustomvariantsDocAccessFields_breadcrumbs_url_Create
+  read: CustomvariantsDocAccessFields_breadcrumbs_url_Read
+  update: CustomvariantsDocAccessFields_breadcrumbs_url_Update
+  delete: CustomvariantsDocAccessFields_breadcrumbs_url_Delete
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_url_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_url_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_url_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_url_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_label {
+  create: CustomvariantsDocAccessFields_breadcrumbs_label_Create
+  read: CustomvariantsDocAccessFields_breadcrumbs_label_Read
+  update: CustomvariantsDocAccessFields_breadcrumbs_label_Update
+  delete: CustomvariantsDocAccessFields_breadcrumbs_label_Delete
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_label_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_label_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_label_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_label_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_id {
+  create: CustomvariantsDocAccessFields_breadcrumbs_id_Create
+  read: CustomvariantsDocAccessFields_breadcrumbs_id_Read
+  update: CustomvariantsDocAccessFields_breadcrumbs_id_Update
+  delete: CustomvariantsDocAccessFields_breadcrumbs_id_Delete
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_id_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_id_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_id_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_breadcrumbs_id_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_updatedAt {
+  create: CustomvariantsDocAccessFields_updatedAt_Create
+  read: CustomvariantsDocAccessFields_updatedAt_Read
+  update: CustomvariantsDocAccessFields_updatedAt_Update
+  delete: CustomvariantsDocAccessFields_updatedAt_Delete
+}
+
+type CustomvariantsDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_createdAt {
+  create: CustomvariantsDocAccessFields_createdAt_Create
+  read: CustomvariantsDocAccessFields_createdAt_Read
+  update: CustomvariantsDocAccessFields_createdAt_Update
+  delete: CustomvariantsDocAccessFields_createdAt_Delete
+}
+
+type CustomvariantsDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields__status {
+  create: CustomvariantsDocAccessFields__status_Create
+  read: CustomvariantsDocAccessFields__status_Read
+  update: CustomvariantsDocAccessFields__status_Update
+  delete: CustomvariantsDocAccessFields__status_Delete
+}
+
+type CustomvariantsDocAccessFields__status_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields__status_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields__status_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsDocAccessFields__status_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomvariantsReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomvariantsUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomvariantsDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomvariantsReadVersionsDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomvariantVersion {
+  parent: Customvariant
+  version: CustomvariantVersion_Version
+  createdAt: DateTime
+  updatedAt: DateTime
+  latest: Boolean
+  id: String
+}
+
+type CustomvariantVersion_Version {
+  title: String
+  publishedOn: DateTime
+  categories: [Category!]
+  relatedProducts: [Product!]
+  slug: String
+  skipSync: Boolean
+  parent: Customvariant
+  breadcrumbs: [CustomvariantVersion_Version_Breadcrumbs!]
+  updatedAt: DateTime
+  createdAt: DateTime
+  _status: CustomvariantVersion_Version__status
+}
+
+type CustomvariantVersion_Version_Breadcrumbs {
+  doc: Customvariant
+  url: String
+  label: String
+  id: String
+}
+
+enum CustomvariantVersion_Version__status {
+  draft
+  published
+}
+
+type versionsCustomvariants {
+  docs: [CustomvariantVersion]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input versionsCustomvariant_where {
+  parent: versionsCustomvariant_parent_operator
+  version__title: versionsCustomvariant_version__title_operator
+  version__publishedOn: versionsCustomvariant_version__publishedOn_operator
+  version__categories: versionsCustomvariant_version__categories_operator
+  version__relatedProducts: versionsCustomvariant_version__relatedProducts_operator
+  version__slug: versionsCustomvariant_version__slug_operator
+  version__skipSync: versionsCustomvariant_version__skipSync_operator
+  version__parent: versionsCustomvariant_version__parent_operator
+  version__breadcrumbs__doc: versionsCustomvariant_version__breadcrumbs__doc_operator
+  version__breadcrumbs__url: versionsCustomvariant_version__breadcrumbs__url_operator
+  version__breadcrumbs__label: versionsCustomvariant_version__breadcrumbs__label_operator
+  version__breadcrumbs__id: versionsCustomvariant_version__breadcrumbs__id_operator
+  version__updatedAt: versionsCustomvariant_version__updatedAt_operator
+  version__createdAt: versionsCustomvariant_version__createdAt_operator
+  version___status: versionsCustomvariant_version___status_operator
+  createdAt: versionsCustomvariant_createdAt_operator
+  updatedAt: versionsCustomvariant_updatedAt_operator
+  latest: versionsCustomvariant_latest_operator
+  id: versionsCustomvariant_id_operator
+  AND: [versionsCustomvariant_where_and]
+  OR: [versionsCustomvariant_where_or]
+}
+
+input versionsCustomvariant_parent_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input versionsCustomvariant_version__title_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input versionsCustomvariant_version__publishedOn_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input versionsCustomvariant_version__categories_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input versionsCustomvariant_version__relatedProducts_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input versionsCustomvariant_version__slug_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input versionsCustomvariant_version__skipSync_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
+input versionsCustomvariant_version__parent_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input versionsCustomvariant_version__breadcrumbs__doc_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input versionsCustomvariant_version__breadcrumbs__url_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input versionsCustomvariant_version__breadcrumbs__label_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input versionsCustomvariant_version__breadcrumbs__id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input versionsCustomvariant_version__updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input versionsCustomvariant_version__createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input versionsCustomvariant_version___status_operator {
+  equals: versionsCustomvariant_version___status_Input
+  not_equals: versionsCustomvariant_version___status_Input
+  in: [versionsCustomvariant_version___status_Input]
+  not_in: [versionsCustomvariant_version___status_Input]
+  all: [versionsCustomvariant_version___status_Input]
+  exists: Boolean
+}
+
+enum versionsCustomvariant_version___status_Input {
+  draft
+  published
+}
+
+input versionsCustomvariant_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input versionsCustomvariant_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input versionsCustomvariant_latest_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
+input versionsCustomvariant_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input versionsCustomvariant_where_and {
+  parent: versionsCustomvariant_parent_operator
+  version__title: versionsCustomvariant_version__title_operator
+  version__publishedOn: versionsCustomvariant_version__publishedOn_operator
+  version__categories: versionsCustomvariant_version__categories_operator
+  version__relatedProducts: versionsCustomvariant_version__relatedProducts_operator
+  version__slug: versionsCustomvariant_version__slug_operator
+  version__skipSync: versionsCustomvariant_version__skipSync_operator
+  version__parent: versionsCustomvariant_version__parent_operator
+  version__breadcrumbs__doc: versionsCustomvariant_version__breadcrumbs__doc_operator
+  version__breadcrumbs__url: versionsCustomvariant_version__breadcrumbs__url_operator
+  version__breadcrumbs__label: versionsCustomvariant_version__breadcrumbs__label_operator
+  version__breadcrumbs__id: versionsCustomvariant_version__breadcrumbs__id_operator
+  version__updatedAt: versionsCustomvariant_version__updatedAt_operator
+  version__createdAt: versionsCustomvariant_version__createdAt_operator
+  version___status: versionsCustomvariant_version___status_operator
+  createdAt: versionsCustomvariant_createdAt_operator
+  updatedAt: versionsCustomvariant_updatedAt_operator
+  latest: versionsCustomvariant_latest_operator
+  id: versionsCustomvariant_id_operator
+  AND: [versionsCustomvariant_where_and]
+  OR: [versionsCustomvariant_where_or]
+}
+
+input versionsCustomvariant_where_or {
+  parent: versionsCustomvariant_parent_operator
+  version__title: versionsCustomvariant_version__title_operator
+  version__publishedOn: versionsCustomvariant_version__publishedOn_operator
+  version__categories: versionsCustomvariant_version__categories_operator
+  version__relatedProducts: versionsCustomvariant_version__relatedProducts_operator
+  version__slug: versionsCustomvariant_version__slug_operator
+  version__skipSync: versionsCustomvariant_version__skipSync_operator
+  version__parent: versionsCustomvariant_version__parent_operator
+  version__breadcrumbs__doc: versionsCustomvariant_version__breadcrumbs__doc_operator
+  version__breadcrumbs__url: versionsCustomvariant_version__breadcrumbs__url_operator
+  version__breadcrumbs__label: versionsCustomvariant_version__breadcrumbs__label_operator
+  version__breadcrumbs__id: versionsCustomvariant_version__breadcrumbs__id_operator
+  version__updatedAt: versionsCustomvariant_version__updatedAt_operator
+  version__createdAt: versionsCustomvariant_version__createdAt_operator
+  version___status: versionsCustomvariant_version___status_operator
+  createdAt: versionsCustomvariant_createdAt_operator
+  updatedAt: versionsCustomvariant_updatedAt_operator
+  latest: versionsCustomvariant_latest_operator
+  id: versionsCustomvariant_id_operator
+  AND: [versionsCustomvariant_where_and]
+  OR: [versionsCustomvariant_where_or]
+}
+
 type Redirect {
   id: String
   from: String!
@@ -6826,6 +8226,8 @@ input Redirect_where_and {
   updatedAt: Redirect_updatedAt_operator
   createdAt: Redirect_createdAt_operator
   id: Redirect_id_operator
+  AND: [Redirect_where_and]
+  OR: [Redirect_where_or]
 }
 
 input Redirect_where_or {
@@ -6836,6 +8238,8 @@ input Redirect_where_or {
   updatedAt: Redirect_updatedAt_operator
   createdAt: Redirect_createdAt_operator
   id: Redirect_id_operator
+  AND: [Redirect_where_and]
+  OR: [Redirect_where_or]
 }
 
 type redirectsDocAccess {
@@ -7156,6 +8560,8 @@ input PayloadPreference_where_and {
   updatedAt: PayloadPreference_updatedAt_operator
   createdAt: PayloadPreference_createdAt_operator
   id: PayloadPreference_id_operator
+  AND: [PayloadPreference_where_and]
+  OR: [PayloadPreference_where_or]
 }
 
 input PayloadPreference_where_or {
@@ -7165,6 +8571,8 @@ input PayloadPreference_where_or {
   updatedAt: PayloadPreference_updatedAt_operator
   createdAt: PayloadPreference_createdAt_operator
   id: PayloadPreference_id_operator
+  AND: [PayloadPreference_where_and]
+  OR: [PayloadPreference_where_or]
 }
 
 type payload_preferencesDocAccess {
@@ -7593,6 +9001,8 @@ input Header_NavItems_Link_Icon_where_and {
   width: Header_NavItems_Link_Icon_width_operator
   height: Header_NavItems_Link_Icon_height_operator
   id: Header_NavItems_Link_Icon_id_operator
+  AND: [Header_NavItems_Link_Icon_where_and]
+  OR: [Header_NavItems_Link_Icon_where_or]
 }
 
 input Header_NavItems_Link_Icon_where_or {
@@ -7607,6 +9017,8 @@ input Header_NavItems_Link_Icon_where_or {
   width: Header_NavItems_Link_Icon_width_operator
   height: Header_NavItems_Link_Icon_height_operator
   id: Header_NavItems_Link_Icon_id_operator
+  AND: [Header_NavItems_Link_Icon_where_and]
+  OR: [Header_NavItems_Link_Icon_where_or]
 }
 
 type headerDocAccess {
@@ -8079,6 +9491,8 @@ input Footer_NavItems_Link_Icon_where_and {
   width: Footer_NavItems_Link_Icon_width_operator
   height: Footer_NavItems_Link_Icon_height_operator
   id: Footer_NavItems_Link_Icon_id_operator
+  AND: [Footer_NavItems_Link_Icon_where_and]
+  OR: [Footer_NavItems_Link_Icon_where_or]
 }
 
 input Footer_NavItems_Link_Icon_where_or {
@@ -8093,6 +9507,8 @@ input Footer_NavItems_Link_Icon_where_or {
   width: Footer_NavItems_Link_Icon_width_operator
   height: Footer_NavItems_Link_Icon_height_operator
   id: Footer_NavItems_Link_Icon_id_operator
+  AND: [Footer_NavItems_Link_Icon_where_and]
+  OR: [Footer_NavItems_Link_Icon_where_or]
 }
 
 type footerDocAccess {
@@ -8418,6 +9834,8 @@ type Access {
   media: mediaAccess
   categories: categoriesAccess
   users: usersAccess
+  variant: variantAccess
+  customvariants: customvariantsAccess
   redirects: redirectsAccess
   payload_preferences: payload_preferencesAccess
   settings: settingsAccess
@@ -8910,34 +10328,9 @@ type PagesFields_meta_Delete {
 }
 
 type PagesFields_meta_Fields {
-  overview: PagesFields_meta_overview
   title: PagesFields_meta_title
   description: PagesFields_meta_description
   image: PagesFields_meta_image
-  preview: PagesFields_meta_preview
-}
-
-type PagesFields_meta_overview {
-  create: PagesFields_meta_overview_Create
-  read: PagesFields_meta_overview_Read
-  update: PagesFields_meta_overview_Update
-  delete: PagesFields_meta_overview_Delete
-}
-
-type PagesFields_meta_overview_Create {
-  permission: Boolean!
-}
-
-type PagesFields_meta_overview_Read {
-  permission: Boolean!
-}
-
-type PagesFields_meta_overview_Update {
-  permission: Boolean!
-}
-
-type PagesFields_meta_overview_Delete {
-  permission: Boolean!
 }
 
 type PagesFields_meta_title {
@@ -9006,29 +10399,6 @@ type PagesFields_meta_image_Update {
 }
 
 type PagesFields_meta_image_Delete {
-  permission: Boolean!
-}
-
-type PagesFields_meta_preview {
-  create: PagesFields_meta_preview_Create
-  read: PagesFields_meta_preview_Read
-  update: PagesFields_meta_preview_Update
-  delete: PagesFields_meta_preview_Delete
-}
-
-type PagesFields_meta_preview_Create {
-  permission: Boolean!
-}
-
-type PagesFields_meta_preview_Read {
-  permission: Boolean!
-}
-
-type PagesFields_meta_preview_Update {
-  permission: Boolean!
-}
-
-type PagesFields_meta_preview_Delete {
   permission: Boolean!
 }
 
@@ -9144,6 +10514,7 @@ type ProductsFields {
   enablePaywall: ProductsFields_enablePaywall
   paywall: ProductsFields_paywall
   categories: ProductsFields_categories
+  variant: ProductsFields_variant
   relatedProducts: ProductsFields_relatedProducts
   slug: ProductsFields_slug
   skipSync: ProductsFields_skipSync
@@ -9337,6 +10708,29 @@ type ProductsFields_categories_Delete {
   permission: Boolean!
 }
 
+type ProductsFields_variant {
+  create: ProductsFields_variant_Create
+  read: ProductsFields_variant_Read
+  update: ProductsFields_variant_Update
+  delete: ProductsFields_variant_Delete
+}
+
+type ProductsFields_variant_Create {
+  permission: Boolean!
+}
+
+type ProductsFields_variant_Read {
+  permission: Boolean!
+}
+
+type ProductsFields_variant_Update {
+  permission: Boolean!
+}
+
+type ProductsFields_variant_Delete {
+  permission: Boolean!
+}
+
 type ProductsFields_relatedProducts {
   create: ProductsFields_relatedProducts_Create
   read: ProductsFields_relatedProducts_Read
@@ -9431,34 +10825,9 @@ type ProductsFields_meta_Delete {
 }
 
 type ProductsFields_meta_Fields {
-  overview: ProductsFields_meta_overview
   title: ProductsFields_meta_title
   description: ProductsFields_meta_description
   image: ProductsFields_meta_image
-  preview: ProductsFields_meta_preview
-}
-
-type ProductsFields_meta_overview {
-  create: ProductsFields_meta_overview_Create
-  read: ProductsFields_meta_overview_Read
-  update: ProductsFields_meta_overview_Update
-  delete: ProductsFields_meta_overview_Delete
-}
-
-type ProductsFields_meta_overview_Create {
-  permission: Boolean!
-}
-
-type ProductsFields_meta_overview_Read {
-  permission: Boolean!
-}
-
-type ProductsFields_meta_overview_Update {
-  permission: Boolean!
-}
-
-type ProductsFields_meta_overview_Delete {
-  permission: Boolean!
 }
 
 type ProductsFields_meta_title {
@@ -9527,29 +10896,6 @@ type ProductsFields_meta_image_Update {
 }
 
 type ProductsFields_meta_image_Delete {
-  permission: Boolean!
-}
-
-type ProductsFields_meta_preview {
-  create: ProductsFields_meta_preview_Create
-  read: ProductsFields_meta_preview_Read
-  update: ProductsFields_meta_preview_Update
-  delete: ProductsFields_meta_preview_Delete
-}
-
-type ProductsFields_meta_preview_Create {
-  permission: Boolean!
-}
-
-type ProductsFields_meta_preview_Read {
-  permission: Boolean!
-}
-
-type ProductsFields_meta_preview_Update {
-  permission: Boolean!
-}
-
-type ProductsFields_meta_preview_Delete {
   permission: Boolean!
 }
 
@@ -10849,6 +12195,534 @@ type UsersUnlockAccess {
   where: JSONObject
 }
 
+type variantAccess {
+  fields: VariantFields
+  create: VariantCreateAccess
+  read: VariantReadAccess
+  update: VariantUpdateAccess
+  delete: VariantDeleteAccess
+}
+
+type VariantFields {
+  title: VariantFields_title
+  media: VariantFields_media
+  updatedAt: VariantFields_updatedAt
+  createdAt: VariantFields_createdAt
+}
+
+type VariantFields_title {
+  create: VariantFields_title_Create
+  read: VariantFields_title_Read
+  update: VariantFields_title_Update
+  delete: VariantFields_title_Delete
+}
+
+type VariantFields_title_Create {
+  permission: Boolean!
+}
+
+type VariantFields_title_Read {
+  permission: Boolean!
+}
+
+type VariantFields_title_Update {
+  permission: Boolean!
+}
+
+type VariantFields_title_Delete {
+  permission: Boolean!
+}
+
+type VariantFields_media {
+  create: VariantFields_media_Create
+  read: VariantFields_media_Read
+  update: VariantFields_media_Update
+  delete: VariantFields_media_Delete
+}
+
+type VariantFields_media_Create {
+  permission: Boolean!
+}
+
+type VariantFields_media_Read {
+  permission: Boolean!
+}
+
+type VariantFields_media_Update {
+  permission: Boolean!
+}
+
+type VariantFields_media_Delete {
+  permission: Boolean!
+}
+
+type VariantFields_updatedAt {
+  create: VariantFields_updatedAt_Create
+  read: VariantFields_updatedAt_Read
+  update: VariantFields_updatedAt_Update
+  delete: VariantFields_updatedAt_Delete
+}
+
+type VariantFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type VariantFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type VariantFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type VariantFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type VariantFields_createdAt {
+  create: VariantFields_createdAt_Create
+  read: VariantFields_createdAt_Read
+  update: VariantFields_createdAt_Update
+  delete: VariantFields_createdAt_Delete
+}
+
+type VariantFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type VariantFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type VariantFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type VariantFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type VariantCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type VariantReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type VariantUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type VariantDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type customvariantsAccess {
+  fields: CustomvariantsFields
+  create: CustomvariantsCreateAccess
+  read: CustomvariantsReadAccess
+  update: CustomvariantsUpdateAccess
+  delete: CustomvariantsDeleteAccess
+  readVersions: CustomvariantsReadVersionsAccess
+}
+
+type CustomvariantsFields {
+  title: CustomvariantsFields_title
+  publishedOn: CustomvariantsFields_publishedOn
+  categories: CustomvariantsFields_categories
+  relatedProducts: CustomvariantsFields_relatedProducts
+  slug: CustomvariantsFields_slug
+  skipSync: CustomvariantsFields_skipSync
+  parent: CustomvariantsFields_parent
+  breadcrumbs: CustomvariantsFields_breadcrumbs
+  updatedAt: CustomvariantsFields_updatedAt
+  createdAt: CustomvariantsFields_createdAt
+  _status: CustomvariantsFields__status
+}
+
+type CustomvariantsFields_title {
+  create: CustomvariantsFields_title_Create
+  read: CustomvariantsFields_title_Read
+  update: CustomvariantsFields_title_Update
+  delete: CustomvariantsFields_title_Delete
+}
+
+type CustomvariantsFields_title_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_title_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_title_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_title_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_publishedOn {
+  create: CustomvariantsFields_publishedOn_Create
+  read: CustomvariantsFields_publishedOn_Read
+  update: CustomvariantsFields_publishedOn_Update
+  delete: CustomvariantsFields_publishedOn_Delete
+}
+
+type CustomvariantsFields_publishedOn_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_publishedOn_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_publishedOn_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_publishedOn_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_categories {
+  create: CustomvariantsFields_categories_Create
+  read: CustomvariantsFields_categories_Read
+  update: CustomvariantsFields_categories_Update
+  delete: CustomvariantsFields_categories_Delete
+}
+
+type CustomvariantsFields_categories_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_categories_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_categories_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_categories_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_relatedProducts {
+  create: CustomvariantsFields_relatedProducts_Create
+  read: CustomvariantsFields_relatedProducts_Read
+  update: CustomvariantsFields_relatedProducts_Update
+  delete: CustomvariantsFields_relatedProducts_Delete
+}
+
+type CustomvariantsFields_relatedProducts_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_relatedProducts_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_relatedProducts_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_relatedProducts_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_slug {
+  create: CustomvariantsFields_slug_Create
+  read: CustomvariantsFields_slug_Read
+  update: CustomvariantsFields_slug_Update
+  delete: CustomvariantsFields_slug_Delete
+}
+
+type CustomvariantsFields_slug_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_slug_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_slug_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_slug_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_skipSync {
+  create: CustomvariantsFields_skipSync_Create
+  read: CustomvariantsFields_skipSync_Read
+  update: CustomvariantsFields_skipSync_Update
+  delete: CustomvariantsFields_skipSync_Delete
+}
+
+type CustomvariantsFields_skipSync_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_skipSync_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_skipSync_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_skipSync_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_parent {
+  create: CustomvariantsFields_parent_Create
+  read: CustomvariantsFields_parent_Read
+  update: CustomvariantsFields_parent_Update
+  delete: CustomvariantsFields_parent_Delete
+}
+
+type CustomvariantsFields_parent_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_parent_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_parent_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_parent_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs {
+  create: CustomvariantsFields_breadcrumbs_Create
+  read: CustomvariantsFields_breadcrumbs_Read
+  update: CustomvariantsFields_breadcrumbs_Update
+  delete: CustomvariantsFields_breadcrumbs_Delete
+  fields: CustomvariantsFields_breadcrumbs_Fields
+}
+
+type CustomvariantsFields_breadcrumbs_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs_Fields {
+  doc: CustomvariantsFields_breadcrumbs_doc
+  url: CustomvariantsFields_breadcrumbs_url
+  label: CustomvariantsFields_breadcrumbs_label
+  id: CustomvariantsFields_breadcrumbs_id
+}
+
+type CustomvariantsFields_breadcrumbs_doc {
+  create: CustomvariantsFields_breadcrumbs_doc_Create
+  read: CustomvariantsFields_breadcrumbs_doc_Read
+  update: CustomvariantsFields_breadcrumbs_doc_Update
+  delete: CustomvariantsFields_breadcrumbs_doc_Delete
+}
+
+type CustomvariantsFields_breadcrumbs_doc_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs_doc_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs_doc_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs_doc_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs_url {
+  create: CustomvariantsFields_breadcrumbs_url_Create
+  read: CustomvariantsFields_breadcrumbs_url_Read
+  update: CustomvariantsFields_breadcrumbs_url_Update
+  delete: CustomvariantsFields_breadcrumbs_url_Delete
+}
+
+type CustomvariantsFields_breadcrumbs_url_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs_url_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs_url_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs_url_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs_label {
+  create: CustomvariantsFields_breadcrumbs_label_Create
+  read: CustomvariantsFields_breadcrumbs_label_Read
+  update: CustomvariantsFields_breadcrumbs_label_Update
+  delete: CustomvariantsFields_breadcrumbs_label_Delete
+}
+
+type CustomvariantsFields_breadcrumbs_label_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs_label_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs_label_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs_label_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs_id {
+  create: CustomvariantsFields_breadcrumbs_id_Create
+  read: CustomvariantsFields_breadcrumbs_id_Read
+  update: CustomvariantsFields_breadcrumbs_id_Update
+  delete: CustomvariantsFields_breadcrumbs_id_Delete
+}
+
+type CustomvariantsFields_breadcrumbs_id_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs_id_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs_id_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_breadcrumbs_id_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_updatedAt {
+  create: CustomvariantsFields_updatedAt_Create
+  read: CustomvariantsFields_updatedAt_Read
+  update: CustomvariantsFields_updatedAt_Update
+  delete: CustomvariantsFields_updatedAt_Delete
+}
+
+type CustomvariantsFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_createdAt {
+  create: CustomvariantsFields_createdAt_Create
+  read: CustomvariantsFields_createdAt_Read
+  update: CustomvariantsFields_createdAt_Update
+  delete: CustomvariantsFields_createdAt_Delete
+}
+
+type CustomvariantsFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsFields__status {
+  create: CustomvariantsFields__status_Create
+  read: CustomvariantsFields__status_Read
+  update: CustomvariantsFields__status_Update
+  delete: CustomvariantsFields__status_Delete
+}
+
+type CustomvariantsFields__status_Create {
+  permission: Boolean!
+}
+
+type CustomvariantsFields__status_Read {
+  permission: Boolean!
+}
+
+type CustomvariantsFields__status_Update {
+  permission: Boolean!
+}
+
+type CustomvariantsFields__status_Delete {
+  permission: Boolean!
+}
+
+type CustomvariantsCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomvariantsReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomvariantsUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomvariantsDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type CustomvariantsReadVersionsAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
 type redirectsAccess {
   fields: RedirectsFields
   create: RedirectsCreateAccess
@@ -11928,6 +13802,13 @@ type Mutation {
   forgotPasswordUser(disableEmail: Boolean, email: String!, expiration: Int): Boolean!
   resetPasswordUser(password: String, token: String): usersResetPassword
   verifyEmailUser(token: String): Boolean
+  createVariant(data: mutationVariantInput!, draft: Boolean): Variant
+  updateVariant(id: String!, autosave: Boolean, data: mutationVariantUpdateInput!, draft: Boolean): Variant
+  deleteVariant(id: String!): Variant
+  createCustomvariant(data: mutationCustomvariantInput!, draft: Boolean): Customvariant
+  updateCustomvariant(id: String!, autosave: Boolean, data: mutationCustomvariantUpdateInput!, draft: Boolean): Customvariant
+  deleteCustomvariant(id: String!): Customvariant
+  restoreVersionCustomvariant(id: String): Customvariant
   createRedirect(data: mutationRedirectInput!, draft: Boolean): Redirect
   updateRedirect(id: String!, autosave: Boolean, data: mutationRedirectUpdateInput!, draft: Boolean): Redirect
   deleteRedirect(id: String!): Redirect
@@ -12084,6 +13965,7 @@ input mutationProductInput {
   enablePaywall: Boolean
   paywall: JSON
   categories: [String]
+  variant: [String]
   relatedProducts: [String]
   slug: String
   skipSync: Boolean
@@ -12113,6 +13995,7 @@ input mutationProductUpdateInput {
   enablePaywall: Boolean
   paywall: JSON
   categories: [String]
+  variant: [String]
   relatedProducts: [String]
   slug: String
   skipSync: Boolean
@@ -12311,6 +14194,72 @@ type usersLoginResult {
 type usersResetPassword {
   token: String
   user: User
+}
+
+input mutationVariantInput {
+  title: String!
+  media: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationVariantUpdateInput {
+  title: String
+  media: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationCustomvariantInput {
+  title: String!
+  publishedOn: String
+  categories: [String]
+  relatedProducts: [String]
+  slug: String
+  skipSync: Boolean
+  parent: String
+  breadcrumbs: [mutationCustomvariant_BreadcrumbsInput]
+  updatedAt: String
+  createdAt: String
+  _status: Customvariant__status_MutationInput
+}
+
+input mutationCustomvariant_BreadcrumbsInput {
+  doc: String
+  url: String
+  label: String
+  id: String
+}
+
+enum Customvariant__status_MutationInput {
+  draft
+  published
+}
+
+input mutationCustomvariantUpdateInput {
+  title: String
+  publishedOn: String
+  categories: [String]
+  relatedProducts: [String]
+  slug: String
+  skipSync: Boolean
+  parent: String
+  breadcrumbs: [mutationCustomvariantUpdate_BreadcrumbsInput]
+  updatedAt: String
+  createdAt: String
+  _status: CustomvariantUpdate__status_MutationInput
+}
+
+input mutationCustomvariantUpdate_BreadcrumbsInput {
+  doc: String
+  url: String
+  label: String
+  id: String
+}
+
+enum CustomvariantUpdate__status_MutationInput {
+  draft
+  published
 }
 
 input mutationRedirectInput {

@@ -7,22 +7,25 @@ const policies = {
     'https://checkout.stripe.com',
     'https://js.stripe.com',
     'https://maps.googleapis.com',
+    'https://a.klaviyo.com',
   ],
   'child-src': ["'self'"],
-  'style-src': ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
-  'img-src': ["'self'", 'https://*.stripe.com', 'https://raw.githubusercontent.com'],
+  'style-src': ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com', 'https://a.klaviyo.com'],
+  'img-src': ["'self'", 'https://*.stripe.com', 'https://raw.githubusercontent.com', 'https://a.klaviyo.com'],
   'font-src': ["'self'"],
   'frame-src': [
     "'self'",
     'https://checkout.stripe.com',
     'https://js.stripe.com',
     'https://hooks.stripe.com',
+    'https://a.klaviyo.com',
   ],
   'connect-src': [
     "'self'",
     'https://checkout.stripe.com',
     'https://api.stripe.com',
     'https://maps.googleapis.com',
+    'https://a.klaviyo.com',
   ],
 }
 

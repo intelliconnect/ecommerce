@@ -6,11 +6,22 @@ import AccountForm from './AccountForm'
 
 import classes from './index.module.scss'
 
+import { getProjects } from '../../_api/getProducts'
+
+
+
 export default async function Account() {
+  console.log("Account page")
+  const projects = await getProjects()
+
+  console.log(projects, "projects !!!!!!!!!!!!!!!!!!")
+
+
   return (
     <div>
       <h5 className={classes.personalInfo}>Personal Information</h5>
       <AccountForm />
+      {/* <p>{projects}</p> */}
     </div>
   )
 }
@@ -23,3 +34,4 @@ export const metadata: Metadata = {
     url: '/account',
   }),
 }
+
